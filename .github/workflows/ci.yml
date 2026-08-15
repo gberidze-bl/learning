@@ -32,7 +32,7 @@ jobs:
 
       - run: npm ci
 
-      - run: npx nx build shop
+      - run: npx nx build shop --base-href /learning/
 
       - uses: actions/upload-pages-artifact@v3
         with:
