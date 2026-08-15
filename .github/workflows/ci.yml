@@ -10,6 +10,10 @@ permissions:
   actions: read
   contents: read
 
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   main:
     runs-on: ubuntu-latest
@@ -30,9 +34,21 @@ jobs:
 
       - run: npx nx build shop
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-pages-artifact@v3
         with:
-          name: shop-dist
           path: dist/apps/shop
 
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: main
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
 
