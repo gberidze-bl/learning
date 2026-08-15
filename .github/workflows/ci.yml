@@ -30,4 +30,9 @@ jobs:
 
       - run: npx nx build shop
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shop-dist
+          path: dist/apps/shop
+
 
